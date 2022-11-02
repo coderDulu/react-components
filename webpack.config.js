@@ -27,7 +27,7 @@ const handleCssLoaders = (loader) => {
 
 // console.log(isProduction);
 module.exports = {
-  target: 'electron-renderer',
+  target: 'web',
   mode: isProduction ? 'production' : 'development',
   devtool: isProduction ? 'source-map' : 'cheap-module-source-map',
   entry: './src/index.tsx',
@@ -45,7 +45,7 @@ module.exports = {
     rules: [{
       oneOf: [
         {
-          test: /\.(tsx|ts)$/,
+          test: /\.(tsx|ts|js)$/,
           include: path.resolve(__dirname, './src'),
           loader: 'babel-loader',
           options: {
