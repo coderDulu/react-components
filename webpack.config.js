@@ -92,7 +92,7 @@ module.exports = {
   devServer: {
     host: 'localhost',
     port: 3030,
-    open: false,
+    open: true,
     historyApiFallback: true, // 解决前端路由刷新404问题
     compress: false,
     hot: true,
