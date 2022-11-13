@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");  // 复制
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin"); // react热更新
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')  // 压缩css
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin; // 分析bundles
 
 const isProduction = process.env.NODE_ENV === 'production'
 // 处理css的loader
@@ -127,7 +128,10 @@ module.exports = {
       ],
     }),
     !isProduction && new ReactRefreshWebpackPlugin(), // 解决js的HMR功能运行时全局变量的问题
-    new MiniCssExtractPlugin(),
+    new MiniCssExtractPlugin({
+      filename: 'css/[name].css'
+    }),
+    isProduction && new BundleAnalyzerPlugin()
   ].filter(Boolean),
   optimization: {
     minimize: isProduction,
@@ -137,12 +141,8 @@ module.exports = {
       }),
       isProduction && new CssMinimizerPlugin()
     ].filter(Boolean),
+    splitChunks: {
+      chunks: 'all'
+    }
   },
-  // cache: {
-  //   type: 'filesystem',
-  //   buildDependencies: {
-  //     // 推荐在 webpack 配置中设置 cache.buildDependencies.config: [__filename] 来获取最新配置以及所有依赖项
-  //     config: [__filename]
-  //   }
-  // }
 }
