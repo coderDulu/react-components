@@ -1,5 +1,5 @@
 {
-  "name": "react-components-autoscrolla",
+  "name": "react-components-autoscroll",
   "version": "1.0.2",
   "description": "消息自动滚动显示框",
   "main": "./lib/index.js",
