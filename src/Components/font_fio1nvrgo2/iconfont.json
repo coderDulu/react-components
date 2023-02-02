@@ -1,0 +1,79 @@
+{
+  "id": "3877018",
+  "name": "video",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "29300657",
+      "name": "repeat",
+      "font_class": "repeat",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "29300651",
+      "name": "pause",
+      "font_class": "pause",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "29300652",
+      "name": "fullscreen-enter",
+      "font_class": "fullscreen-enter",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "29300654",
+      "name": "fullscreen-exit",
+      "font_class": "fullscreen-exit",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "29300656",
+      "name": "play",
+      "font_class": "play",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "29300663",
+      "name": "volume-down",
+      "font_class": "volume-down",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "29300664",
+      "name": "sound-on",
+      "font_class": "sound-on",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "29300667",
+      "name": "sound-off",
+      "font_class": "sound-off",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "29300668",
+      "name": "volume-up",
+      "font_class": "volume-up",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "29300649",
+      "name": "download",
+      "font_class": "download",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    }
+  ]
+}

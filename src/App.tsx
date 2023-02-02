@@ -1,16 +1,18 @@
 import React from 'react';
-// import ImageItem from '@/Components/index';
+// import VideoControl from '@/Components/index';
 
-// import ImageItem from '../lib/index';
+// 打包测试
+// import VideoControl from '../lib/index';
 // import '../lib/index.min.css';
 
-import ImageItem from 'du-imageitem'; // 导入模块
-import 'du-imageitem/lib/index.min.css'; // 导入样式
+// 发布版本测试
+import VideoControl from 'du-videocontrol'; // 导入模块
+import 'du-videocontrol/lib/index.min.css'; // 导入样式
 
 function App() {
   return (
     <div className="App">
-      <ImageItem src='https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg'/>
+      <VideoControl style={{ width: 500, height: 300, margin: '0 auto' }} url='https://www.w3schools.com/html/movie.mp4' />
     </div>
   );
 }

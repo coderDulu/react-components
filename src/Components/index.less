@@ -1,0 +1,100 @@
+@import url('./font_fio1nvrgo2//iconfont.css');
+
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+
+.video-container {
+  position: relative;
+  width: 100%;
+  // height: 300px;
+  background-color: #555555;
+}
+
+#video-context {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+#video-controls {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  position: absolute;
+  bottom: 0;
+  padding: 0;
+  visibility: hidden;
+  flex-wrap: wrap;
+  align-items: center;
+
+  li {
+    // margin-left: 10px;
+    margin: 0 4px;
+    button {
+      background-color: #a09b9b;
+      color: #f6f6f6;
+      // background-color: #328fce;
+      // color: #fff;
+      outline: none;
+      border: 0;
+      padding: 5px;
+      border-radius: 2px;
+    }
+  }
+}
+
+// .controls {
+//   display: flex;
+//   justify-content: center;
+//   width: 100%;
+//   padding: 0;
+// }
+
+#progress,
+#playpause,
+#stop,
+#mute,
+#volinc,
+#voldec,
+#fs {
+  cursor: pointer;
+  &:active {
+    background-color: #40a4e7;
+  }
+}
+
+.progress {
+  flex: 1;
+}
+#progress {
+  // width: 150px;
+  width: 100%;
+  height: 15px;
+  color: rgb(7, 151, 247);
+  border-radius: 1rem;
+  border: solid 1px #40a4e7;
+}
+
+/* 表示总长度背景色 */
+#progress::-webkit-progress-bar {
+  background-color: #555555;
+  border-radius: 1rem;
+}
+
+/* 表示已完成进度背景色 */
+#progress::-webkit-progress-value {
+  background-color: #40a4e7;
+  border-radius: 1rem;
+}
+
+ul,
+li {
+  list-style-type: none;
+}
+
