@@ -5,7 +5,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyPlugin = require("copy-webpack-plugin");  // 复制
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin"); // react热更新
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')  // 压缩css
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin; // 分析bundles
 
 const isProduction = process.env.NODE_ENV === 'production'
 // 处理css的loader
@@ -26,7 +25,6 @@ const handleCssLoaders = (loader) => {
   ].filter(Boolean)
 }
 
-// console.log(isProduction);
 module.exports = {
   target: 'web',
   mode: isProduction ? 'production' : 'development',
@@ -41,12 +39,14 @@ module.exports = {
     // 资源文件
     assetModuleFilename: 'static/media/[hash:10][ext][query]',
     clean: true,
+    // 解决路由跳转，资源路径问题
+    publicPath: isProduction ? undefined : '/'
   },
   module: {
     rules: [{
       oneOf: [
         {
-          test: /\.(tsx|ts|js)$/,
+          test: /\.(tsx|ts)$/,
           include: path.resolve(__dirname, './src'),
           loader: 'babel-loader',
           options: {
@@ -92,11 +92,21 @@ module.exports = {
   },
   devServer: {
     host: 'localhost',
-    port: 3030,
-    open: true,
+    port: 3000,
+    open: false,
     historyApiFallback: true, // 解决前端路由刷新404问题
+   /*  static: {
+      directory: path.resolve(__dirname, 'static'),
+      publicPath: '/'
+    }, */
     compress: false,
     hot: true,
+  /*   proxy: {
+      '/api': {
+        target: 'http://172.16.3.178/cgi-bin/web.fcgi',
+        pathRewrite: {'^/api': ''}
+      }
+    } */
   },
   resolve: {
     alias: {
@@ -128,10 +138,7 @@ module.exports = {
       ],
     }),
     !isProduction && new ReactRefreshWebpackPlugin(), // 解决js的HMR功能运行时全局变量的问题
-    new MiniCssExtractPlugin({
-      filename: 'css/[name].css'
-    }),
-    isProduction && new BundleAnalyzerPlugin()
+    new MiniCssExtractPlugin(),
   ].filter(Boolean),
   optimization: {
     minimize: isProduction,
@@ -141,8 +148,16 @@ module.exports = {
       }),
       isProduction && new CssMinimizerPlugin()
     ].filter(Boolean),
+    // 将公共的依赖模块提取到已有的入口 chunk 中，或者提取到一个新生成的 chunk
     splitChunks: {
       chunks: 'all'
     }
   },
+  // cache: {
+  //   type: 'filesystem',
+  //   buildDependencies: {
+  //     // 推荐在 webpack 配置中设置 cache.buildDependencies.config: [__filename] 来获取最新配置以及所有依赖项
+  //     config: [__filename]
+  //   }
+  // }
 }
