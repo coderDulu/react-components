@@ -1,6 +1,6 @@
 {
-  "name": "du-autoscroll",
-  "version": "1.0.1",
+  "name": "du-imageitem-1",
+  "version": "1.0.2",
   "description": "消息自动滚动显示框",
   "main": "./lib/index.js",
   "author": "dudulu",
@@ -44,6 +44,7 @@
     "@ant-design/icons": "^4.7.0",
     "antd": "^4.24.1",
     "du-autoscroll": "^1.0.1",
+    "du-imageitem": "^1.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.3"

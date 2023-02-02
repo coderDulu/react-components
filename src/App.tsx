@@ -1,18 +1,16 @@
 import React from 'react';
-// import AutoScroll from '@/AutoScroll';
+// import ImageItem from '@/Components/index';
 
-// 发布版测试
-import AutoScroll from 'du-autoscroll';
-import 'du-autoscroll/lib/index.min.css';
+// import ImageItem from '../lib/index';
+// import '../lib/index.min.css';
+
+import ImageItem from 'du-imageitem'; // 导入模块
+import 'du-imageitem/lib/index.min.css'; // 导入样式
 
 function App() {
   return (
     <div className="App">
-      <AutoScroll isAuto={false} style={{ width: 300, height: 300 }}>
-        {
-          Array(24).fill('').map((_, index) => <div key={index}>{index}</div>)
-        }
-      </AutoScroll>
+      <ImageItem src='https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg'/>
     </div>
   );
 }

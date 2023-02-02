@@ -29,7 +29,7 @@ module.exports = {
   mode: 'production',
   devtool: 'cheap-module-source-map',
   entry: {
-    AutoScroll: './src/AutoScroll/index.tsx',
+    AutoScroll: './src/Components/index.tsx',
   },
   output: {
     path: path.resolve(__dirname, 'lib'),
