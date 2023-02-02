@@ -1,5 +1,5 @@
 {
-  "name": "du-autoscrolla",
+  "name": "du-autoscroll",
   "version": "1.0.1",
   "description": "消息自动滚动显示框",
   "main": "./lib/index.js",
