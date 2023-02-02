@@ -28,7 +28,7 @@ yarn-error.log*
 main.js
 main.js.*
 
-lib
+# lib
 
 # webpack.config.*
 # webpack.npm.config.js
