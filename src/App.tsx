@@ -1,5 +1,9 @@
 import React from 'react';
-import AutoScroll from '@/AutoScroll';
+// import AutoScroll from '@/AutoScroll';
+
+// 发布版测试
+import AutoScroll from 'du-autoscroll';
+import 'du-autoscroll/lib/index.min.css';
 
 function App() {
   return (
