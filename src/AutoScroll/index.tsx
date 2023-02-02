@@ -4,7 +4,6 @@ import styles from './index.module.less';
 
 interface propsType {
   children: any;
-  height?: string;
   style?: any;
   className?: any;
   onContextMenu?: (e: any) => void;

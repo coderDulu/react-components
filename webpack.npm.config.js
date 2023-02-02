@@ -39,7 +39,7 @@ module.exports = {
     chunkFilename: 'js/[name].[contenthash:10].chunk.js',
     // 资源文件
     assetModuleFilename: 'static/media/[hash:10][ext][query]',
-    clean: true,
+    clean: false,
     libraryTarget: 'umd', // 采用通用模块定义
     libraryExport: 'default', // 兼容 ES6 的模块系统、CommonJS 和 AMD 模块规范
   },
