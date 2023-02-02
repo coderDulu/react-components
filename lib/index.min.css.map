@@ -1,0 +1,1 @@
+{"version":3,"file":"index.min.css","mappings":"AAAA","sources":["webpack://react-components-autoscroll/./src/AutoScroll/index.module.less"],"sourcesContent":[".scroll {\n  overflow-y: hidden;\n  // height: 300px;\n  display: flex;\n  flex-direction: column;\n  white-space: pre-wrap;\n}"],"names":[],"sourceRoot":""}
