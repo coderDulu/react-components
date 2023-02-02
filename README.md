@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 消息自动滚动显示框
 
 **React 消息自动滚动显示框：组件内的内容超出自动滚动，显示最新内容。**
@@ -34,3 +35,7 @@ import 'react-components-autoscroll/lib/index.min.css'; // 导入样式
     }
 </AutoScroll>
 ```
+=======
+# react-components
+一些通用的组件集合
+>>>>>>> bc684f87bc82d392f6afa3cd2add03fc177533fc
