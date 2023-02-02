@@ -25,8 +25,8 @@
 #### 例子：
 
 ```tsx
-import { AutoScroll } from 'du-react-common'; // 导入模块
-import 'du-react-common/lib/index.css'; // 导入样式
+import AutoScroll from 'du-autoscroll'; // 导入模块
+import 'du-autoscroll/lib/index.min.css'; // 导入样式
 
  <AutoScroll>
     {
