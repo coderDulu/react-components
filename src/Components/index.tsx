@@ -17,20 +17,23 @@ export default function index({
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const controlRef = useRef<HTMLUListElement>(null); // 控制元素
+  const controlRef = useRef<HTMLDivElement>(null); // 控制元素
   const [progress, setProgress] = useState(0);    // 播放进度条
 
   // 状态
   const [isPlay, setIsPlay] = useState(false);  // 是否播放
   const [isMute, setIsMute] = useState(false);  // 是否静音
   const [isFs, setIsFs] = useState(false);      // 是否最大化
+  const [volumeNum, setVolumeNum] = useState(0);  // 音量
+  const [showRange, setShowRange] = useState(false) // 是否显示音量控制条
 
   useEffect(() => {
     const video = videoRef.current;
     if (video) {
+      setVolumeNum(video.volume * 100);
       video.addEventListener('timeupdate', () => {
-        const newProgress = Math.floor(video.currentTime / video.duration * 100) ;
-        console.log(newProgress)
+        const newProgress = Math.floor(video.currentTime / video.duration * 100);
+        // console.log(newProgress)
         setProgress(_ => newProgress);
       })
 
@@ -63,6 +66,22 @@ export default function index({
     }
   }
 
+  // 设置音量
+  function setVolume(e: any) {
+    const target = e.target
+    // console.log();
+    videoRef.current!.volume = target.value / 100;  // 设置音量
+
+    if (target.value === '0') {   // 静音
+      setIsMute(true);
+    } else {
+      setIsMute(false);
+    }
+
+    // console.log('volume', target.value)
+    setVolumeNum(target.value)
+  }
+
   // 静音
   function handleMute() {
     if (videoRef.current) {
@@ -71,24 +90,16 @@ export default function index({
     }
   }
 
-  // 音量+
-  function handleVolinc() {
-    alterVolume('+');
-  }
-
-  // 音量-
-  function handleVoldec() {
-    alterVolume('-');
-  }
   // 音量处理
   function alterVolume(dir: '+' | '-') {
     const video = videoRef.current;
     if (video) {
       const currentVolume = Math.floor(video.volume * 10) / 10;
+      console.log(currentVolume)
       if (dir === '+' && currentVolume < 1) {
-        video.volume += 0.1;
+        video.volume += 0.01;
       } else if (dir === '-' && currentVolume > 0) {
-        video.volume -= 0.1;
+        video.volume -= 0.01;
       }
     }
   }
@@ -134,6 +145,7 @@ export default function index({
   }
 
 
+
   return (
     <>
       <div style={style} className={`video-container ${className ?? null}`} ref={containerRef} onMouseEnter={showControls} onMouseLeave={hiddenControls}>
@@ -146,44 +158,63 @@ export default function index({
           <a href={url}>MP4</a>
           video.
         </video>
-        <ul id="video-controls" className="controls" ref={controlRef}>
-          <li>
-            <button id="playpause" type="button" onClick={handlePlayPause}>
-              {
-                isPlay ?
-                  <SvgItem href='#icon-pause' />
-                  :
-                  <SvgItem href='#icon-play' />
-              }
-            </button>
-          </li>
-          <li><button id="stop" type="button" onClick={handleStop}><SvgItem href='#icon-repeat'/></button></li>
+        <div ref={controlRef} className='show-controls'>
+          <ul id="video-controls" className="controls" >
+            <div className='flex-container'>
+              <li>
+                <button id="playpause" type="button" onClick={handlePlayPause}>
+                  {
+                    isPlay ?
+                      <SvgItem href='#icon-pause' />
+                      :
+                      <SvgItem href='#icon-play' />
+                  }
+                </button>
+              </li>
+              <li><button id="stop" type="button" onClick={handleStop}><SvgItem href='#icon-repeat' /></button></li>
+            </div>
+
+
+            <div className='flex-container'>
+              <li id='volume'>
+                {showRange ? <input type="range" min="0" max="100" step={1} value={volumeNum} onClick={setVolume} onInput={setVolume} /> : null}
+                <button type='button' onClick={() => setShowRange(!showRange)}><SvgItem href={isMute ? '#icon-sound-off' : '#icon-sound-on'} /></button>
+              </li>
+              {/*  <li>
+                <button id="mute" type="button" onClick={handleMute}>
+                  {
+                    isMute ?
+                      <SvgItem href='#icon-sound-off' />
+                      :
+                      <SvgItem href='#icon-sound-on' />
+                  }
+                </button>
+              </li>
+              <li><button id="volinc" type="button" onClick={handleVolinc}><SvgItem href='#icon-volume-up' /></button></li>
+              <li><button id="voldec" type="button" onClick={handleVoldec}><SvgItem href='#icon-volume-down' /></button></li> */}
+              <li>
+                <button id='download' type='button'>
+                  <a href={url} download target='_blank'><SvgItem href='#icon-download' /></a>
+                </button>
+              </li>
+              <li>
+                <button id="fs" type="button" onClick={handleFS}>
+                  {
+                    isFs ?
+                      <SvgItem href='#icon-fullscreen-exit' />
+                      :
+                      <SvgItem href='#icon-fullscreen-enter' />
+                  }
+                </button>
+              </li>
+            </div>
+          </ul>
           <li className="progress">
             <progress id="progress" value={progress} min="0" max={100} onClick={handleSkip}>
               <span id="progress-bar"></span>
             </progress>
           </li>
-          <li>
-            <button id="mute" type="button" onClick={handleMute}>
-              {
-                isMute ?
-                  <SvgItem href='#icon-sound-off' />
-                  :
-                  <SvgItem href='#icon-sound-on' />
-              }
-            </button>
-          </li>
-          <li><button id="volinc" type="button" onClick={handleVolinc}><SvgItem href='#icon-volume-up'/></button></li>
-          <li><button id="voldec" type="button" onClick={handleVoldec}><SvgItem href='#icon-volume-down'/></button></li>
-          <li><button id="fs" type="button" onClick={handleFS}>
-            {
-              isFs ?
-                <SvgItem href='#icon-fullscreen-exit' />
-                :
-                <SvgItem href='#icon-fullscreen-enter' />
-            }
-          </button></li>
-        </ul>
+        </div>
       </div>
     </>
   )

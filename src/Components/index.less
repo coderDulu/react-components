@@ -1,5 +1,10 @@
 @import url('./font_fio1nvrgo2//iconfont.css');
 
+.flex-container {
+  display: flex;
+  align-items: center;
+}
+
 .icon {
   width: 1em;
   height: 1em;
@@ -22,20 +27,29 @@
   cursor: pointer;
 }
 
+.show-controls {
+  visibility: hidden;
+}
+
 #video-controls {
   display: flex;
   width: 100%;
-  justify-content: center;
+  justify-content: space-between;
   position: absolute;
-  bottom: 0;
+  bottom: 12px;
   padding: 0;
-  visibility: hidden;
+  // visibility: hidden;
   flex-wrap: wrap;
   align-items: center;
 
   li {
     // margin-left: 10px;
-    margin: 0 4px;
+    // flex: 1;
+    // width: 20px;
+    // width: 20px;
+    height: 30px;
+    margin: 0 2px;
+
     button {
       background-color: #a09b9b;
       color: #f6f6f6;
@@ -45,6 +59,7 @@
       border: 0;
       padding: 5px;
       border-radius: 2px;
+      cursor: pointer;
     }
   }
 }
@@ -64,14 +79,39 @@
 #voldec,
 #fs {
   cursor: pointer;
+
   &:active {
     background-color: #40a4e7;
   }
+
 }
 
 .progress {
-  flex: 1;
+  // flex: 1;
+  // width: 80%;
+  // flex-grow: 2;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
 }
+
+#volume {
+  width: auto !important;
+  display: flex;
+  align-items: center;
+
+  button:active {
+    background-color: #40a4e7;
+  }
+
+  input[type='range'] {
+    cursor: pointer;
+    margin-right: 2px;
+  }
+}
+
 #progress {
   // width: 150px;
   width: 100%;
@@ -98,3 +138,35 @@ li {
   list-style-type: none;
 }
 
+
+/* 这里不考虑浏览器的兼容性 */
+[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+  outline: 0;
+  background-color: transparent;
+  // width: 500px;
+}
+
+[type="range"]::-webkit-slider-runnable-track {
+  height: 4px;
+  background: #eee;
+}
+
+[type="range"i]::-webkit-slider-container {
+  height: 20px;
+  overflow: hidden;
+}
+
+[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: #484c4d;
+  border: 1px solid transparent;
+  margin-top: -8px;
+  border-image: linear-gradient(#7cc2f1, #7cc2f1) 0 fill / 8 20 8 0 / 0px 0px 0 2000px;
+}

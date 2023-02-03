@@ -1,6 +1,6 @@
 {
-  "name": "du-videocontrol-5",
-  "version": "1.0.5",
+  "name": "du-videocontrol",
+  "version": "1.0.6",
   "description": "消息自动滚动显示框",
   "main": "./lib/index.js",
   "author": "dudulu",
