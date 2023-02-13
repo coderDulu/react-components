@@ -1,8 +1,9 @@
 {
-  "name": "du-autoscroll-1",
-  "version": "1.0.3",
+  "name": "du-autoscroll",
+  "version": "1.0.5",
   "description": "消息自动滚动显示框",
   "main": "./lib/index.js",
+  "types": "./typs/index.d.ts",
   "author": "dudulu",
   "license": "ISC",
   "scripts": {
@@ -13,6 +14,7 @@
   "files": [
     "lib"
   ],
+  "keywords": ["scroll", "滚动框"],
   "devDependencies": {
     "@babel/core": "^7.19.3",
     "@babel/preset-react": "^7.18.6",

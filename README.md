@@ -25,7 +25,7 @@
 
 ```tsx
 import AutoScroll from 'du-autoscroll'; // 导入模块
-import 'du-autoscroll/lib/index.min.css'; // 导入样式
+import 'du-autoscroll/dist/index.css'; // 导入样式
 
  <AutoScroll>
     {

@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "declaration": true,
+    "rootDir": "./src/Components",
+    "declarationDir": "./lib/types",
     "target": "es5",
     "lib": [
       "dom",
@@ -27,7 +30,7 @@
     }
   },
   "include": [
-    "src",
+    "src/Components", "src/index.d.ts",
   ],
   "ts-node": {
     "esm": true

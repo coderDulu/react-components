@@ -2,11 +2,12 @@ import React from 'react';
 
 // import AutoScroll from '@/AutoScroll';
 
-// import AutoScroll from '../lib/index';
+import AutoScroll from '../lib/index';
+import '../lib/dist/index.css';
 
 // 发布版测试
-import AutoScroll from 'du-autoscroll';
-import 'du-autoscroll/lib/index.min.css';
+// import AutoScroll from 'du-autoscroll';
+// import 'du-autoscroll/dist/index.css';
 
 function App() {
   return (

@@ -28,9 +28,7 @@ module.exports = {
   target: 'web',
   mode: 'production',
   devtool: 'cheap-module-source-map',
-  entry: {
-    AutoScroll: './src/AutoScroll/index.tsx',
-  },
+  entry: './src/Components/index.tsx',
   output: {
     path: path.resolve(__dirname, 'lib'),
     // 出口文件
@@ -39,7 +37,7 @@ module.exports = {
     chunkFilename: 'js/[name].[contenthash:10].chunk.js',
     // 资源文件
     assetModuleFilename: 'static/media/[hash:10][ext][query]',
-    clean: false,
+    clean: true,
     libraryTarget: 'umd', // 采用通用模块定义
     libraryExport: 'default', // 兼容 ES6 的模块系统、CommonJS 和 AMD 模块规范
   },
@@ -50,13 +48,20 @@ module.exports = {
       commonjs2: "react-dom",
       commonjs: "react-dom",
       amd: "react-dom"
-    }
+    },
+    antd: 'antd',
+    flvjs: 'flv.js'
   },
   module: {
     rules: [{
       oneOf: [
         {
-          test: /\.(tsx|ts|js?x)$/,
+          test: /\.tsx?$/,
+          exclude: /node_modules/,
+          loader: 'ts-loader'
+        },
+        {
+          test: /\.(js?x)$/,
           include: path.resolve(__dirname, './src'),
           loader: 'babel-loader',
           options: {
@@ -108,7 +113,7 @@ module.exports = {
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: 'index.min.css'
+      filename: 'dist/index.css'
     }),
     // new CopyPlugin(
     //   {
