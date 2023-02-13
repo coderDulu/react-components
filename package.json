@@ -14,7 +14,12 @@
     "lib"
   ],
   "types": "./lib/types/index.d.ts",
-  "keywords": ["video", "video-control", "flvjs", "rtsp"],
+  "keywords": [
+    "video",
+    "video-control",
+    "flvjs",
+    "rtsp"
+  ],
   "devDependencies": {
     "@babel/core": "^7.19.3",
     "@babel/preset-react": "^7.18.6",
