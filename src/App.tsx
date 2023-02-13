@@ -4,7 +4,7 @@ import React from 'react';
 
 // 打包测试
 import VideoControl from '../lib/index';
-import '../lib/index.min.css';
+import '../lib/dist/index.css';
 
 // 发布版本测试
 // import VideoControl from 'du-videocontrol'; // 导入模块
@@ -13,7 +13,12 @@ import '../lib/index.min.css';
 function App() {
   return (
     <div className="App">
-      <VideoControl style={{ width: 300, height: 170, margin: '0 auto' }} url='https://www.w3schools.com/html/movie.mp4' />
+      {/* https://www.w3schools.com/html/movie.mp4 */}
+      {/* ws://127.0.0.1:8100/rtsp */}
+      {/* <VideoControl type='mp4' style={{ width: 300, height: 170, margin: '0 auto' }} url='https://www.w3schools.com/html/movie.mp4' /> */}
+      <div style={{ width: 400, height: 300, margin: '0 auto' }}>
+        <VideoControl type='flv' url='ws://127.0.0.1:8100/rtsp' />
+      </div>
     </div>
   );
 }

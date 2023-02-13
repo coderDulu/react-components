@@ -1,20 +1,24 @@
 /**
  * 视频播放控制组件(用于替换原生的播放器控制组件)
  */
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react';
 import './index.less';
 import './font_fio1nvrgo2/iconfont';
 import SvgItem from './svgItem';
+import flvjs from 'flv.js';
 
-export default function index({
-  url,
-  className,
-  style
-}: {
-  url: string; // 视频播放链接
+interface PropTypes {
   className?: string;
   style?: any;
-}) {
+}
+
+export default function index({
+  className,
+  style,
+  type,
+  url,
+  ...args
+}: PropTypes & flvjs.MediaDataSource) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const controlRef = useRef<HTMLDivElement>(null); // 控制元素
@@ -27,12 +31,26 @@ export default function index({
   const [volumeNum, setVolumeNum] = useState(0);  // 音量
   const [showRange, setShowRange] = useState(false) // 是否显示音量控制条
 
+
   useEffect(() => {
     const video = videoRef.current;
     if (video) {
+      if (flvjs.isSupported()) {
+        console.log('test', flvjs)
+        const flvPlayer = flvjs.createPlayer({
+          type,
+          url,
+          ...args
+        });
+        flvPlayer.attachMediaElement(video);
+        // 加载
+        flvPlayer.load();
+      }
+
       setVolumeNum(video.volume * 100);
       video.addEventListener('timeupdate', () => {
-        const newProgress = Math.floor(video.currentTime / video.duration * 100);
+        // console.log(video.currentTime, video.duration ? 0 : 1)
+        const newProgress = video.duration ? Math.floor(video.currentTime / (video.duration || 0) * 100) : 0;
         // console.log(newProgress)
         setProgress(_ => newProgress);
       })
@@ -42,17 +60,21 @@ export default function index({
         controlRef.current!.style.visibility = 'visible';
       })
     }
-
   }, [])
 
   // 播放视频
   function handlePlayPause() {
-    if (videoRef.current?.ended || videoRef.current?.paused) {
-      videoRef.current.play();
-      setIsPlay(true);
-    } else {
-      videoRef.current?.pause();
-      setIsPlay(false);
+    try {
+      if (videoRef.current?.ended || videoRef.current?.paused) {
+        videoRef.current.play();
+
+        setIsPlay(true);
+      } else {
+        videoRef.current?.pause();
+        setIsPlay(false);
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -149,14 +171,13 @@ export default function index({
   return (
     <>
       <div style={style} className={`video-container ${className ?? null}`} ref={containerRef} onMouseEnter={showControls} onMouseLeave={hiddenControls}>
-
         <video preload='metadata' id='video-context' ref={videoRef} >
-          <source src={url} type="video/mp4" />
+          {/* <source src={url} type="video/mp4" />
           Download the
           <a href={url}>WEBM</a>
           or
           <a href={url}>MP4</a>
-          video.
+          video. */}
         </video>
         <div ref={controlRef} className='show-controls'>
           <ul id="video-controls" className="controls" >
@@ -193,9 +214,12 @@ export default function index({
               <li><button id="volinc" type="button" onClick={handleVolinc}><SvgItem href='#icon-volume-up' /></button></li>
               <li><button id="voldec" type="button" onClick={handleVoldec}><SvgItem href='#icon-volume-down' /></button></li> */}
               <li>
-                <button id='download' type='button'>
-                  <a href={url} download target='_blank'><SvgItem href='#icon-download' /></a>
-                </button>
+                {
+                  type === 'mp4' &&
+                  <button id='download' type='button'>
+                    <a href={url} download target='_blank'><SvgItem href='#icon-download' /></a>
+                  </button>
+                }
               </li>
               <li>
                 <button id="fs" type="button" onClick={handleFS}>
@@ -209,8 +233,9 @@ export default function index({
               </li>
             </div>
           </ul>
+          {/* 进度条 */}
           <li className="progress">
-            <progress id="progress" value={progress} min="0" max={100} onClick={handleSkip}>
+            <progress id="progress" value={progress} max={100} onClick={handleSkip}>
               <span id="progress-bar"></span>
             </progress>
           </li>
