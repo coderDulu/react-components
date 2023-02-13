@@ -14,7 +14,10 @@
   "files": [
     "lib"
   ],
-  "repository": { "type": "git", "url": "https://github.com/coderDulu/react-components/tree/imageItem" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coderDulu/react-components/tree/imageItem"
+  },
   "devDependencies": {
     "@babel/core": "^7.19.3",
     "@babel/preset-react": "^7.18.6",
