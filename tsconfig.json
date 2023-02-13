@@ -1,9 +1,7 @@
 {
   "compilerOptions": {
-    // "typeRoots": ["./src/"],
-    // "rootDir": "./src/Components",
-    "outDir": "lib",
     "declaration": true,
+    "rootDir": "./src/Components",
     "declarationDir": "./lib/types",
     "target": "es5",
     "lib": [
@@ -32,10 +30,9 @@
     }
   },
   "include": [
-    "src/Components",
-    // "src"
+    "src/Components", "src/index.d.ts",
   ],
   "ts-node": {
     "esm": true
-  },
+  }
 }
