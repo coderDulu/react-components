@@ -20,13 +20,23 @@
 | `url`       | `string` | 表示媒体 URL，可以以 'https(s)' 或 'ws(s)' (WebSocket) 开头                   |
 | `其他参数`  | `any`    | <https://github.com/bilibili/flv.js/blob/master/docs/api.md#flvjsissupported> |
 
+
 ## 使用方式
+
+## 版本
+### 1.0.0
+  - 初始化样式
+  - 初始化功能
+### 1.0.1
+  - 增加flvjs嵌入
+### 1.0.2
+  - 增加销毁
 
 #### 例子：
 
 ```tsx
-import ImageItem from 'du-videocontrol'; // 导入模块
-import 'du-videocontrol/dist/index.css'; // 导入样式
+import VideoControl from 'du-video';
+import 'du-video/lib/dist/index.css';
 
 ...
 // type is mp4

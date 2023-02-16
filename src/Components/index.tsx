@@ -12,6 +12,8 @@ interface PropTypes {
   style?: any;
 }
 
+
+
 export default function index({
   className,
   style,
@@ -33,11 +35,12 @@ export default function index({
 
 
   useEffect(() => {
+
     const video = videoRef.current;
+    let flvPlayer: flvjs.Player;
     if (video) {
       if (flvjs.isSupported()) {
-        console.log('test', flvjs)
-        const flvPlayer = flvjs.createPlayer({
+        flvPlayer = flvjs.createPlayer({
           type,
           url,
           ...args
@@ -45,13 +48,35 @@ export default function index({
         flvPlayer.attachMediaElement(video);
         // 加载
         flvPlayer.load();
+
+        flvPlayer.on('error', err => {
+          console.log(err)
+          flvPlayer.unload()
+        })
+
+        flvPlayer.on(flvjs.Events.ERROR, (err, errdet) => {
+          // 参数 err 是一级异常，errdet 是二级异常
+          if (err == flvjs.ErrorTypes.MEDIA_ERROR) {
+            console.log('媒体错误')
+            if (errdet == flvjs.ErrorDetails.MEDIA_FORMAT_UNSUPPORTED) {
+              console.log('媒体格式不支持')
+            }
+          }
+          if (err == flvjs.ErrorTypes.NETWORK_ERROR) {
+            console.log('网络错误')
+            if (errdet == flvjs.ErrorDetails.NETWORK_STATUS_CODE_INVALID) {
+              console.log('http状态码异常')
+            }
+          }
+          if (err == flvjs.ErrorTypes.OTHER_ERROR) {
+            console.log('其他异常：', errdet)
+          }
+        });
       }
 
       setVolumeNum(video.volume * 100);
       video.addEventListener('timeupdate', () => {
-        // console.log(video.currentTime, video.duration ? 0 : 1)
         const newProgress = video.duration ? Math.floor(video.currentTime / (video.duration || 0) * 100) : 0;
-        // console.log(newProgress)
         setProgress(_ => newProgress);
       })
 
@@ -59,7 +84,15 @@ export default function index({
         setIsPlay(false);
         controlRef.current!.style.visibility = 'visible';
       })
+
     }
+
+    return () => {
+      flvPlayer.destroy();
+    }
+
+    // 监听错误事件
+
   }, [])
 
   // 播放视频
@@ -117,7 +150,7 @@ export default function index({
     const video = videoRef.current;
     if (video) {
       const currentVolume = Math.floor(video.volume * 10) / 10;
-      console.log(currentVolume)
+      // console.log(currentVolume)
       if (dir === '+' && currentVolume < 1) {
         video.volume += 0.01;
       } else if (dir === '-' && currentVolume > 0) {
