@@ -1,9 +1,9 @@
 {
   "name": "du-imageitem",
-  "version": "1.0.8",
+  "version": "1.1.1",
   "description": "图片查看器",
   "main": "./lib/index.js",
-  "types": "./types/index.d.ts",
+  "types": "./lib/types/index.d.ts",
   "author": "dudulu",
   "license": "ISC",
   "scripts": {

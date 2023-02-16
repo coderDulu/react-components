@@ -16,32 +16,32 @@ export default function Modal({
   src,
   onCancel
 }: propsType) {
-  const [scale, setScale] = useState(80);
+  const [scale, setScale] = useState(1);
   const [rotate, setRotate] = useState(0)
-
+  const step = 0.1;
   // 处理滚轮事件
   function handleWheel(e: any) {
     // console.log('2333', e.deltaY, scale);
     switch (e.deltaY) {
       case 100:
         // console.log('缩小');
-        setScale(scale - 10);
+        setScale(old => old >= step + 0.1 ? scale - step : old);
         break;
       case -100:
         // console.log('放大');
-        setScale(scale + 10);
+        setScale(scale + step);
         break;
     }
   }
 
   // 放大
   function handlePlus(e: React.MouseEvent<HTMLButtonElement>) {
-    setScale(scale + 10);
+    setScale(scale + step);
     e.stopPropagation();
   }
   // 缩小
   function handleMinus(e: React.MouseEvent<HTMLButtonElement>) {
-    setScale(scale - 10);
+    setScale(old => old > step + 0.1 ? scale - step : old);
     e.stopPropagation();
   }
   // 左旋
@@ -69,7 +69,7 @@ export default function Modal({
         <Button type='link' onClick={handleMinus} icon={<MinusSquareOutlined />} />
         <Button type='link' onClick={onCancel} icon={<CloseOutlined />} />
       </div>
-      <img src={src} alt="images" style={{ scale: scale + '%', rotate: rotate + 'deg' }} />
+      <img src={src} alt="images" style={{ transform: `scale(${scale}) rotate(${rotate + 'deg'})`}} />
     </div>
   )
 }
