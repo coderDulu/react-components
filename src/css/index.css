@@ -1,0 +1,17 @@
+.App {
+  display: flex;
+  width: 500px;
+  height: 50vh;
+  flex-direction: column;
+}
+
+.log{
+  flex: 1;
+  background-color: #ccc;
+  overflow: hidden
+}
+
+.footer {
+  flex: 1;
+  background-color: #ff0;
+}
