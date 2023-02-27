@@ -2,7 +2,7 @@
 interface propsType {
     data: any[];
     itemHeight: number;
-    height: number;
+    height: number | string;
     isAuto?: boolean;
     className?: string;
     style?: any;

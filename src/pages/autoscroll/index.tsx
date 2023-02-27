@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react'
 import styles from './index.module.less';
-import VirtualList from '../pages/virtualList';
 
 
 interface propsType {
@@ -19,8 +18,7 @@ export default function autoScroll(props: propsType) {
     const status = scrollRef.current.style.overflowY;
     
     isAuto && (status === 'hidden' || !status) && scrollRef.current.scrollTo({
-      top: scrollRef.current.scrollHeight,
-      behavior: "smooth"
+      top: scrollRef.current.scrollHeight
     })
   })
 
@@ -37,7 +35,7 @@ export default function autoScroll(props: propsType) {
       onMouseLeave={e => handleMouseEnter(e, 'hidden')}
       onContextMenu={props.onContextMenu}
     >
-      <VirtualList height={500} data={props.children} itemHeight={50}></VirtualList>
+      {props.children}
     </div>
   )
 }

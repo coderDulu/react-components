@@ -1,18 +1,19 @@
 import React, { useEffect, useReducer, useRef, ReactElement } from 'react'
-import './virtualList.less';
+import styles from './index.module.less';
 
 interface dataType {
   startIndex: number;
   endIndex: number;
   bufferNum: number;
   limit: number;
+  currentIndex: number;
 }
 
 interface propsType {
   data: any[];  // 渲染的数据
   itemHeight: number; // item的高度
-  height: number;     // 可视区高度
-  isAuto?: boolean;   // 是否开启自动滚动（默认开启）
+  height: number | string;     // 可视区高度
+  isAuto?: boolean;   // 是否开启自动滚动（默认不开启）
   className?: string; // 类名
   style?: any;     // 样式
 }
@@ -22,6 +23,7 @@ const initData: dataType = {
   endIndex: 0,    // 可视区域结束下标
   bufferNum: 4,   // 缓冲区个数（成对，上下个有个缓冲）
   limit: 0,       // 可视区显示个数
+  currentIndex: 0,   // 上一次的currentIndex
 }
 
 function reducer(state: dataType, action: any): dataType {
@@ -37,7 +39,7 @@ function reducer(state: dataType, action: any): dataType {
 }
 
 export default function virtualList(props: propsType) {
-  const { data, itemHeight, height, isAuto = true, style, className } = props;
+  const { data, itemHeight, height, isAuto = false, style, className } = props;
 
   const contentRef = useRef<HTMLDivElement>(null);  // 所有内容
   const visualRef = useRef<HTMLDivElement>(null);     // 可视区高度
@@ -63,18 +65,18 @@ export default function virtualList(props: propsType) {
 
   // 自动滚动
   useEffect(() => {
-    const overflowY = visualRef.current?.style.overflowY;     
+    const overflowY = visualRef.current?.style.overflowY;
     const isOverflowY = !overflowY || overflowY === 'hidden'; // 滚动条不显示则自动滚动
-    
+
     if (isAuto && visualRef.current && isOverflowY) {
-      const {scrollHeight, scrollTop} = visualRef.current;
+      const { scrollHeight, scrollTop } = visualRef.current;
       const diffNum = scrollTop - lastScrollTop.current;  // 用于判断是否启用behavior: smooth
 
       lastScrollTop.current = scrollTop
       visualRef.current.scrollTo({
         top: scrollHeight,
-        behavior: diffNum  !== itemHeight ? 'auto' : 'smooth'
-      }) 
+        behavior: diffNum !== itemHeight ? 'auto' : 'smooth'
+      })
     }
   }, [data])
 
@@ -84,20 +86,25 @@ export default function virtualList(props: propsType) {
 
       const { scrollTop } = e.target;
       const currentIndex = Math.floor(scrollTop / itemHeight);
+      // console.log(currentIndex, state.currentIndex, scrollTop);
 
-      if (currentIndex !== state.startIndex) {
+      if (currentIndex !== state.currentIndex) {
         const { bufferNum, limit } = state;
         const endIndex = Math.min(currentIndex + bufferNum + limit, data.length - 1);
 
+        // requestAnimationFrame(() => {
         dispatch({
           type: "set",
           payload: {
             startIndex: Math.max(currentIndex - bufferNum, 0),
-            endIndex
+            endIndex,
+            currentIndex
           }
         })
+        // });
       }
     }
+    e.preventDefault();
   }
 
   // 渲染列表
@@ -107,14 +114,14 @@ export default function virtualList(props: propsType) {
 
     for (let i = startIndex; i <= endIndex; i++) {
       const item = data[i];
-      content.push(<div className='list-item' key={i} style={{ top: i * itemHeight, height: itemHeight }}>{item}</div>)
+      content.push(<div className={styles.listItem} key={i} style={{ top: i * itemHeight, height: itemHeight }}>{item}</div>)
     }
     return content;
   }
 
   // 处理鼠标移入移出
   function handleMouse(e: any, type: string) {
-    if(visualRef.current) {
+    if (visualRef.current) {
       visualRef.current.style.overflowY = type;
     }
   }
@@ -124,7 +131,7 @@ export default function virtualList(props: propsType) {
     <div>
       {/* 可视区 */}
       <div
-        className={`list-visual ${className ?? ''}`}
+        className={`${styles.listVisual} ${className ?? ''}`}
         ref={visualRef}
         onScroll={onScroll}
         style={{ height, ...style }}
@@ -132,7 +139,7 @@ export default function virtualList(props: propsType) {
         onMouseLeave={e => handleMouse(e, 'hidden')}
 
       >
-        <div className="list-content" ref={contentRef} style={{ height: data.length * itemHeight }}>
+        <div className={styles.listContent} ref={contentRef} style={{ height: data.length * itemHeight }}>
           {
             renderOfList()
           }
