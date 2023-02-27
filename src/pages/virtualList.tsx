@@ -1,22 +1,27 @@
-import React, { useEffect, useLayoutEffect, useReducer, useRef, useState, useCallback } from 'react'
+import React, { useEffect, useReducer, useRef, ReactElement } from 'react'
 import './virtualList.less';
 
 interface dataType {
   startIndex: number;
   endIndex: number;
   bufferNum: number;
+  limit: number;
 }
 
 interface propsType {
   data: any[];  // 渲染的数据
   itemHeight: number; // item的高度
-
+  height: number;     // 可视区高度
+  isAuto?: boolean;   // 是否开启自动滚动（默认开启）
+  className?: string; // 类名
+  style?: any;     // 样式
 }
 
 const initData: dataType = {
   startIndex: 0,  // 可视区域开始下标
   endIndex: 0,    // 可视区域结束下标
-  bufferNum: 3,   // 缓冲区个数（成对，上下个有个缓冲）
+  bufferNum: 4,   // 缓冲区个数（成对，上下个有个缓冲）
+  limit: 0,       // 可视区显示个数
 }
 
 function reducer(state: dataType, action: any): dataType {
@@ -31,82 +36,105 @@ function reducer(state: dataType, action: any): dataType {
   }
 }
 
-
-const debounce = (callback: any, delay: number) => {
-  let timer: NodeJS.Timeout | null = null;
-
-  return (args) => {
-    if (!timer) {
-      timer = setTimeout(() => {
-        callback(args);
-        clearTimeout(timer);
-        timer = null;
-      }, delay);
-    }
-  }
-}
-
 export default function virtualList(props: propsType) {
-  const { data, itemHeight } = props;
+  const { data, itemHeight, height, isAuto = true, style, className } = props;
 
   const contentRef = useRef<HTMLDivElement>(null);  // 所有内容
   const visualRef = useRef<HTMLDivElement>(null);     // 可视区高度
-  const [limit, setLimit] = useState(0);    // 可视区显示个数
+  const lastScrollTop = useRef(0);  // 记录上一次的scrollTop
 
   const [state, dispatch] = useReducer(reducer, initData);
-  const [contentData, setData] = useState<any[]>([]);
 
-
+  // 初始显示
   useEffect(() => {
-    const { startIndex, endIndex, bufferNum } = state;
-    const sliceData = data.map((item, index) => {
-      if (index >= (startIndex - bufferNum <= 0 ? startIndex : startIndex - bufferNum) && index <= endIndex + bufferNum) {
-        return <div className='list-item' key={index} style={{ top: index * itemHeight, height: itemHeight }}>{item}</div>
-      }
-    }).filter(Boolean);
+    if (visualRef.current) {
+      const visualRef_clientHeight = visualRef.current.clientHeight;    // 获取clientHeight
+      const limit = Math.ceil(visualRef_clientHeight / itemHeight);   // 获取渲染区域显示个数
 
-    setData(sliceData);
-  }, [state])
-
-
-  useEffect(() => {
-    const visualRef_clientHeight = visualRef.current!.clientHeight;    // 获取clientHeight
-    const limit = Math.ceil(visualRef_clientHeight / itemHeight);   // 获取渲染区域显示个数
-    setLimit(limit);
-    dispatch({
-      type: "set",
-      payload: {
-        endIndex: limit
-      }
-    })
+      dispatch({
+        type: "set",
+        payload: {
+          endIndex: Math.min(state.startIndex + state.bufferNum + limit, data.length - 1),
+          limit
+        }
+      })
+    }
   }, [])
 
+  // 自动滚动
+  useEffect(() => {
+    const overflowY = visualRef.current?.style.overflowY;     
+    const isOverflowY = !overflowY || overflowY === 'hidden'; // 滚动条不显示则自动滚动
+    
+    if (isAuto && visualRef.current && isOverflowY) {
+      const {scrollHeight, scrollTop} = visualRef.current;
+      const diffNum = scrollTop - lastScrollTop.current;  // 用于判断是否启用behavior: smooth
+
+      lastScrollTop.current = scrollTop
+      visualRef.current.scrollTo({
+        top: scrollHeight,
+        behavior: diffNum  !== itemHeight ? 'auto' : 'smooth'
+      }) 
+    }
+  }, [data])
+
+  // 监听滚动事件
   function onScroll(e: any) {
     if (e.target === visualRef.current) {
-      const { scrollTop } = e.target;
-      const startIndex = Math.floor(scrollTop / itemHeight);
 
-      if (startIndex !== state.startIndex) {
+      const { scrollTop } = e.target;
+      const currentIndex = Math.floor(scrollTop / itemHeight);
+
+      if (currentIndex !== state.startIndex) {
+        const { bufferNum, limit } = state;
+        const endIndex = Math.min(currentIndex + bufferNum + limit, data.length - 1);
+
         dispatch({
           type: "set",
           payload: {
-            startIndex,
-            endIndex: startIndex + limit
+            startIndex: Math.max(currentIndex - bufferNum, 0),
+            endIndex
           }
         })
       }
     }
-
   }
+
+  // 渲染列表
+  function renderOfList() {
+    const { startIndex, endIndex } = state;
+    const content: ReactElement[] = [];
+
+    for (let i = startIndex; i <= endIndex; i++) {
+      const item = data[i];
+      content.push(<div className='list-item' key={i} style={{ top: i * itemHeight, height: itemHeight }}>{item}</div>)
+    }
+    return content;
+  }
+
+  // 处理鼠标移入移出
+  function handleMouse(e: any, type: string) {
+    if(visualRef.current) {
+      visualRef.current.style.overflowY = type;
+    }
+  }
+
 
   return (
     <div>
-      <div className="list-visual" ref={visualRef} onScroll={onScroll} >
-        {/* 可视区 */}
+      {/* 可视区 */}
+      <div
+        className={`list-visual ${className ?? ''}`}
+        ref={visualRef}
+        onScroll={onScroll}
+        style={{ height, ...style }}
+        onMouseEnter={e => handleMouse(e, 'auto')}
+        onMouseLeave={e => handleMouse(e, 'hidden')}
+
+      >
         <div className="list-content" ref={contentRef} style={{ height: data.length * itemHeight }}>
           {
-            // contentData.map((item) => <div className='list-item' key={item} style={{ top: item * itemHeight, height: itemHeight }}>{item}</div>)
-            contentData
+            renderOfList()
           }
         </div>
       </div>

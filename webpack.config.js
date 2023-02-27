@@ -40,7 +40,7 @@ module.exports = {
     assetModuleFilename: 'static/media/[hash:10][ext][query]',
     clean: true,
     // 解决路由跳转，资源路径问题
-    publicPath: isProduction ? undefined : '/'
+    publicPath: isProduction ? undefined : '/',
   },
   module: {
     rules: [{

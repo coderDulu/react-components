@@ -1,36 +1,38 @@
-# 消息自动滚动显示框
+# 自动列表显示框（支持虚拟列表渲染）
 
-**React 消息自动滚动显示框：组件内的内容超出自动滚动，显示最新内容。**
+**React 自动列表显示框：支持虚拟列表的自动滚动消息框。**
 
 ## 主要功能
 
-- 支持聊天消息自动滚动，显示最新消息。
-- 支持日志打印自动显示。
-- 支持对组件样式进行自定义设置，需设置style/className（注意css优先级）。
-- 内容超出高度时：鼠标移入后显示滚动条，移出则隐藏且继续自动滚动到最新消息。
+- 支持虚拟列表渲染
+- 支持自动滚动到最新消息
+- 支持对组件样式进行自定义设置
+- 鼠标移入/移除，显示/隐藏滚动条
 - ---未完待续
 
 ## 参数
 
-| 属性         | 描述                                             |
-| ------------ | ------------------------------------------------|
-| style        | 自定义样式                                       |
-| className    | 类名                                             |
-| onContextMenu | 组件右键触发事件，可用于给组件添加鼠标右键事件。 |
-| isAuto       | 是否自动滚动到底部                               |
-| children     | 传入的内容（组件/文本）                               |
+| 属性       | 描述                                   |
+| ---------- | -------------------------------------- |
+| style      | 容器自定义样式                         |
+| className  | 容器自定义类名                         |
+| isAuto     | 是否开启自动滚动最新数据（默认开启） |
+| data       | 需要渲染的列表                         |
+| height     | 容器高度                               |
+| itemHeight | 容器内每个item的高度                   |
 
 ## 使用方式
 
 #### 例子：
 
 ```tsx
-import AutoScroll from 'du-autoscroll'; // 导入模块
-import 'du-autoscroll/dist/index.css'; // 导入样式
+import AutoList from 'du-autoList'; // 导入模块
+import 'du-autoList/dist/index.css'; // 导入样式
 
- <AutoScroll>
-    {
-      Array(24).fill('').map((_, index) => <div key={index}>{index}</div>)
-    }
-</AutoScroll>
+// ...其他代码
+// 组件使用
+const data = (num: number) => 
+  Array(num).fill(0).map((_, index) => <div style={{backgroundColor: '#ff0', height: '50px', border: '1px solid #ccc'}}>{`hahaha-${index}`}</div>)
+;
+<VirtualList height={500} data={data(num)} itemHeight={50}></VirtualList>
 ```

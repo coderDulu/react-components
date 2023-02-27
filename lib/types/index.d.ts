@@ -1,10 +1,11 @@
 /// <reference types="react" />
 interface propsType {
-    children: any;
-    style?: any;
-    className?: any;
-    onContextMenu?: (e: any) => void;
+    data: any[];
+    itemHeight: number;
+    height: number;
     isAuto?: boolean;
+    className?: string;
+    style?: any;
 }
-export default function autoScroll(props: propsType): JSX.Element;
+export default function virtualList(props: propsType): JSX.Element;
 export {};
