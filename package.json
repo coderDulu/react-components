@@ -1,6 +1,6 @@
 {
-  "name": "du-autoscroll",
-  "version": "1.0.9",
+  "name": "@dudulu/autolist",
+  "version": "1.0.1",
   "description": "消息自动滚动显示框",
   "main": "./lib/index.js",
   "types": "./lib/types/index.d.ts",
@@ -14,8 +14,8 @@
   "files": [
     "lib"
   ],
-  "repository": "",
-  "keywords": ["虚拟列表", "Virtual list", "列表显示", "消息列表容器", "list"],
+  "repository": "https://github.com/coderDulu/react-components/tree/autoList",
+  "keywords": ["虚拟列表", "Virtual list", "列表显示", "消息列表容器", "list", "react"],
   "devDependencies": {
     "@babel/core": "^7.19.3",
     "@babel/preset-react": "^7.18.6",

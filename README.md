@@ -26,8 +26,8 @@
 #### 例子：
 
 ```tsx
-import AutoList from 'du-autoList'; // 导入模块
-import 'du-autoList/dist/index.css'; // 导入样式
+import AutoList from '@dudulu/autolist'; // 导入组件
+import '@dudulu/autolist/dist/index.css'; // 导入样式
 
 // ...其他代码
 // 组件使用
