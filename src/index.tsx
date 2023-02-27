@@ -5,5 +5,5 @@ import App2 from './App2';
 
 const root = document.getElementById('root');
 if(root) {
-  createRoot(root).render(<App2 />)
+  createRoot(root).render(<App />)
 }
