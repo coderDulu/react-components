@@ -6,7 +6,6 @@ interface propsType {
   children: any;
   style?: any;
   className?: any;
-  onContextMenu?: (e: any) => void;
   isAuto?: boolean;
 }
 

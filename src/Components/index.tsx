@@ -12,10 +12,11 @@ interface dataType {
 interface propsType {
   data: any[];  // 渲染的数据
   itemHeight: number; // item的高度
-  height: number | string;     // 可视区高度
+  height?: number | string;     // 可视区高度
   isAuto?: boolean;   // 是否开启自动滚动（默认不开启）
   className?: string; // 类名
   style?: any;     // 样式
+  // openVirtualRender: boolean  // 是否开启虚拟列表渲染
 }
 
 const initData: dataType = {
@@ -40,6 +41,10 @@ function reducer(state: dataType, action: any): dataType {
 
 export default function virtualList(props: propsType) {
   const { data, itemHeight, height, isAuto = false, style, className } = props;
+
+  // if (!itemHeight || !data) {
+  //   return <div>not found itemHeight/data attribute</div>
+  // }
 
   const contentRef = useRef<HTMLDivElement>(null);  // 所有内容
   const visualRef = useRef<HTMLDivElement>(null);     // 可视区高度
@@ -93,14 +98,14 @@ export default function virtualList(props: propsType) {
         const endIndex = Math.min(currentIndex + bufferNum + limit, data.length - 1);
 
         // requestAnimationFrame(() => {
-        dispatch({
-          type: "set",
-          payload: {
-            startIndex: Math.max(currentIndex - bufferNum, 0),
-            endIndex,
-            currentIndex
-          }
-        })
+          dispatch({
+            type: "set",
+            payload: {
+              startIndex: Math.max(currentIndex - bufferNum, 0),
+              endIndex,
+              currentIndex
+            }
+          })
         // });
       }
     }

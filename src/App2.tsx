@@ -2,20 +2,22 @@ import React, { useState } from 'react';
 import '@/css/index.css';
 
 import VirtualList from './Components/index';
+
+
 // import VirtualList from '../lib/index';
 // import '../lib/dist/index.css';
 
 
-const data = (num: number) => 
-  Array(num).fill(0).map((_, index) => <div style={{backgroundColor: '#ff0', height: '100px', border: '1px solid #ccc'}}>{`hahaha-${index}`}</div>)
-;
+const data = (num: number) =>
+  Array(num).fill(0).map((_, index) => <div key={index} style={{ backgroundColor: '#ff0', height: '50px', border: '1px solid #ccc' }}>{`hahaha-${index}`}</div>)
+  ;
 
 
 function App() {
   const [num, setNum] = useState(1000);
- /*  setTimeout(() => {
-    setNum(num + 1);
-  }, 1000); */
+  /*  setTimeout(() => {
+     setNum(num + 1);
+   }, 1000); */
   return (
     <div className="App">
       <VirtualList height='70vh' data={data(num)} itemHeight={50}></VirtualList>
