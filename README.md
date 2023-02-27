@@ -2,7 +2,7 @@
 
 **React 消息自动滚动显示框：组件内的内容超出自动滚动，显示最新内容。**
 
-## 建议使用支持虚拟列表的自动滚动消息框：https://www.npmjs.com/package/@dudulu/autolist
+#### 支持虚拟列表的自动滚动消息框：https://www.npmjs.com/package/@dudulu/autolist
 
 ## 主要功能
 

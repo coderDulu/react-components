@@ -1,6 +1,6 @@
 {
   "name": "du-autoscroll",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "消息自动滚动显示框",
   "main": "./lib/index.js",
   "types": "./lib/types/index.d.ts",
@@ -16,8 +16,11 @@
   ],
   "keywords": [
     "scroll",
-    "滚动框"
+    "滚动框",
+    "容器",
+    "container"
   ],
+  "repository": "https://github.com/coderDulu/react-components/tree/autoscroll",
   "devDependencies": {
     "@ant-design/icons": "^4.7.0",
     "@babel/core": "^7.19.3",
